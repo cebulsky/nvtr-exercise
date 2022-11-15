@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Jokes.Application.Filter;
 using Microsoft.Extensions.Options;
 using Tests.Common;
 

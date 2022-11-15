@@ -1,5 +1,6 @@
 using Jokes.Application;
-using Jokes.Infrastructure;
+using Jokes.Infrastructure.JokesApi;
+using Jokes.Infrastructure.Storage;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

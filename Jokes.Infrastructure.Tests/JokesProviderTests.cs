@@ -1,5 +1,6 @@
 using System.Net;
 using FluentAssertions;
+using Jokes.Infrastructure.JokesApi;
 using Microsoft.Extensions.Logging;
 using Moq;
 using RichardSzalay.MockHttp;

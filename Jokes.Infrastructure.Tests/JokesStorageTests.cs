@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentAssertions;
-using Jokes.Application;
+using Jokes.Application.Model;
+using Jokes.Infrastructure.Storage;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

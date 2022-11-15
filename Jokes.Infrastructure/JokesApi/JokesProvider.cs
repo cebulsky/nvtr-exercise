@@ -1,8 +1,9 @@
 ﻿using System.Net.Http.Json;
-using Jokes.Application;
+using Jokes.Application.Abstractions;
+using Jokes.Application.Model;
 using Microsoft.Extensions.Logging;
 
-namespace Jokes.Infrastructure
+namespace Jokes.Infrastructure.JokesApi
 {
     public class JokesProvider : IJokesProvider
     {
@@ -33,7 +34,7 @@ namespace Jokes.Infrastructure
 
             return tasks.
                 Where(t => t.Result != null).
-                Select(t => t.Result).ToArray()!; 
+                Select(t => t.Result).ToArray()!;
         }
 
         private List<Task<Joke?>> PrepareGettingJokeTasks(int amount)

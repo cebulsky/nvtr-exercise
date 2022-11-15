@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using Jokes.Application;
+using Jokes.Application.Abstractions;
+using Jokes.Application.Model;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 
-namespace Jokes.Infrastructure
+namespace Jokes.Infrastructure.Storage
 {
     public class JokesStorage : IJokesStorage
     {

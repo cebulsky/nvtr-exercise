@@ -1,4 +1,6 @@
-﻿namespace Jokes.Application
+﻿using Jokes.Application.Abstractions;
+
+namespace Jokes.Application
 {
     public class JokesPuller
     {

@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Jokes.Application.Abstractions;
+using Jokes.Application.Model;
+using Microsoft.Extensions.Options;
 
-namespace Jokes.Application
+namespace Jokes.Application.Filter
 {
     public class JokesFilter : IJokesFilter
     {

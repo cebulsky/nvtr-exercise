@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Jokes.Infrastructure;
+namespace Jokes.Infrastructure.Storage;
 
 [Serializable]
 public class JokesStorageException : Exception

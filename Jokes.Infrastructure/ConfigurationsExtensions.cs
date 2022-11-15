@@ -1,7 +1,9 @@
-﻿using Jokes.Application;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Jokes.Infrastructure.JokesApi;
+using Jokes.Infrastructure.Storage;
+using Jokes.Application.Abstractions;
 
 namespace Jokes.Infrastructure
 {

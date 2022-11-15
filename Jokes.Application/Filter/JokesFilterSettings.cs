@@ -1,4 +1,4 @@
-﻿namespace Jokes.Application
+﻿namespace Jokes.Application.Filter
 {
     public class JokesFilterSettings
     {

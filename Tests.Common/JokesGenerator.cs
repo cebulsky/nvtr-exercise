@@ -1,4 +1,4 @@
-﻿using Jokes.Application;
+﻿using Jokes.Application.Model;
 
 namespace Tests.Common
 {

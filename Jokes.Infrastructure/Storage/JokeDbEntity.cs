@@ -1,4 +1,4 @@
-﻿namespace Jokes.Infrastructure;
+﻿namespace Jokes.Infrastructure.Storage;
 
 public class JokeDbEntity
 {

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Jokes.Infrastructure;
+namespace Jokes.Infrastructure.JokesApi;
 
 [Serializable]
 public class JokesProviderException : Exception

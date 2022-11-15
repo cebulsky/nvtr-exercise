@@ -1,4 +1,4 @@
-﻿namespace Jokes.Application
+﻿namespace Jokes.Application.Model
 {
     public class Joke
     {

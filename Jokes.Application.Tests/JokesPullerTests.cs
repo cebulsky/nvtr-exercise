@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using Jokes.Application.Abstractions;
+using Jokes.Application.Model;
 using Moq;
 using Tests.Common;
 

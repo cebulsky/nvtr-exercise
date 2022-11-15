@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
+using Jokes.Application.Model;
 
-using Jokes.Application;
-
-namespace Jokes.Infrastructure
+namespace Jokes.Infrastructure.Storage
 {
     public class JokeMappingProfile : Profile
     {

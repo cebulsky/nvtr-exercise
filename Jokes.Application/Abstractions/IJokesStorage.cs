@@ -1,4 +1,6 @@
-﻿namespace Jokes.Application
+﻿using Jokes.Application.Model;
+
+namespace Jokes.Application.Abstractions
 {
     public interface IJokesStorage
     {

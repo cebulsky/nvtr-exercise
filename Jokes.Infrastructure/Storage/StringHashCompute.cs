@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Jokes.Infrastructure;
+namespace Jokes.Infrastructure.Storage;
 
 internal static class StringHashCompute
 {

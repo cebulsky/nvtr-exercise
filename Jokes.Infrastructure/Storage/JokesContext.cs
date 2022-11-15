@@ -1,7 +1,7 @@
 ﻿using Jokes.Application;
 using Microsoft.EntityFrameworkCore;
 
-namespace Jokes.Infrastructure
+namespace Jokes.Infrastructure.Storage
 {
     public class JokesContext : DbContext
     {
