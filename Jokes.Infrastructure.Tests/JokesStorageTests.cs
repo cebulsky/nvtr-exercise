@@ -2,6 +2,8 @@ using FluentAssertions;
 using Jokes.Application;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace Jokes.Infrastructure.Tests
 {
@@ -10,6 +12,7 @@ namespace Jokes.Infrastructure.Tests
         private readonly SqliteConnection _connection;
         private readonly JokesContext _context;
         private readonly JokesStorage _jokesStorage;
+        private readonly Mock<ILogger<JokesStorage>> _logger;
 
         public JokesStorageTests()
         {
@@ -21,7 +24,8 @@ namespace Jokes.Infrastructure.Tests
                 .Options;
 
             _context = new JokesContext(options);
-            _jokesStorage = new JokesStorage(_context);
+            _logger = new Mock<ILogger<JokesStorage>>();
+            _jokesStorage = new JokesStorage(_context, _logger.Object);
         }
 
         [Fact]

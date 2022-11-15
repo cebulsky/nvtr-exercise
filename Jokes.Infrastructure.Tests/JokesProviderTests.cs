@@ -65,9 +65,10 @@ namespace Jokes.Infrastructure.Tests
                 .Respond(HttpStatusCode.BadRequest);
 
             _httpClient = _httpHandlerMock.ToHttpClient();
+            _httpClient.BaseAddress = new Uri(_resourceUrl);
             _jokesProvider = new JokesProvider(_httpClient, _logger.Object);
 
-             await _jokesProvider.Invoking(async p => await p.GetJokesAsync(1)).Should().ThrowAsync<JokesProviderException>();
+            await _jokesProvider.Invoking(async p => await p.GetJokesAsync(1)).Should().ThrowAsync<JokesProviderException>();
         }
     }
 }

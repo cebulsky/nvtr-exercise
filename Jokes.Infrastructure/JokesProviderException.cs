@@ -7,7 +7,7 @@ public class JokesProviderException : Exception
 {
     public JokesProviderException()
     {
-        
+
     }
 
     public JokesProviderException(string message) : base(message)

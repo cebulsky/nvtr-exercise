@@ -49,7 +49,7 @@ namespace Jokes.Infrastructure
             catch (Exception exception)
             {
                 _logger.LogCritical(exception, "Unusual error thrown while getting random joke from external API");
-                throw new JokesProviderException(exception.Message, exception);
+                throw;
             }
         }
     }
