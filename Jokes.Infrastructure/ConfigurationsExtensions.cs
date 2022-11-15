@@ -11,7 +11,8 @@ namespace Jokes.Infrastructure
         {
             services
                 .AddSqliteStorage(configuration)
-                .AddJokesProvider(configuration);
+                .AddJokesProvider(configuration)
+                .AddAutoMapper(typeof(JokeMappingProfile));
 
             return services;
         }
@@ -28,13 +29,15 @@ namespace Jokes.Infrastructure
                 .AddTransient<IJokesStorage, JokesStorage>();
         }
 
-        private static void AddJokesProvider(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddJokesProvider(this IServiceCollection services, IConfiguration configuration)
         {
             var jokesProviderSettings = new JokesProviderSettings();
             configuration.GetSection(nameof(JokesProviderSettings)).Bind(jokesProviderSettings);
 
             services.AddHttpClient<IJokesProvider, JokesProvider>(client =>
                 client.BaseAddress = new Uri(jokesProviderSettings.EndpointUrl));
+
+            return services;
         }
     }
 }

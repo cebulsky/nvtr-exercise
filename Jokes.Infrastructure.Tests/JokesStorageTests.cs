@@ -1,3 +1,4 @@
+using AutoMapper;
 using FluentAssertions;
 using Jokes.Application;
 using Microsoft.Data.Sqlite;
@@ -14,6 +15,7 @@ namespace Jokes.Infrastructure.Tests
         private readonly JokesContext _context;
         private readonly JokesStorage _jokesStorage;
         private readonly Mock<ILogger<JokesStorage>> _logger;
+        private readonly IMapper _mapper;
 
         public JokesStorageTests()
         {
@@ -26,7 +28,13 @@ namespace Jokes.Infrastructure.Tests
 
             _context = new JokesContext(options);
             _logger = new Mock<ILogger<JokesStorage>>();
-            _jokesStorage = new JokesStorage(_context, _logger.Object);
+
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+                cfg.AddProfile(typeof(JokeMappingProfile)));
+
+            _mapper = mapperConfiguration.CreateMapper();
+
+            _jokesStorage = new JokesStorage(_context, _logger.Object, _mapper);
         }
 
         [Fact]
@@ -36,7 +44,9 @@ namespace Jokes.Infrastructure.Tests
 
             await _jokesStorage.SaveJokesAsync(jokes);
 
-            _context.Jokes.ToArray().Should().BeEquivalentTo(jokes);
+            var dbJokes = _mapper.Map<JokeDbEntity[]>(jokes);
+
+            _context.Jokes.ToArray().Should().BeEquivalentTo(dbJokes);
         }
 
         [Fact]
@@ -46,12 +56,15 @@ namespace Jokes.Infrastructure.Tests
 
             var duplicatedJoke = new Joke
             {
-                Id = jokes.First().Id
+                Id = Guid.NewGuid().ToString(),
+                Value = jokes.First().Value
             };
 
             await _jokesStorage.SaveJokesAsync(jokes.Concat(new[] { duplicatedJoke }));
 
-            _context.Jokes.ToArray().Should().BeEquivalentTo(jokes);
+            var dbJokes = _mapper.Map<JokeDbEntity[]>(jokes);
+
+            _context.Jokes.ToArray().Should().BeEquivalentTo(dbJokes);
         }
 
         public void Dispose()

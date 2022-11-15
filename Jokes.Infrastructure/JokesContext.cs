@@ -5,7 +5,7 @@ namespace Jokes.Infrastructure
 {
     public class JokesContext : DbContext
     {
-        public DbSet<Joke> Jokes { get; set; }
+        public DbSet<JokeDbEntity> Jokes { get; set; }
 
         public JokesContext(DbContextOptions<JokesContext> options) : base(options)
         {
@@ -16,7 +16,7 @@ namespace Jokes.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Joke>().HasKey(j => j.Id);
+            modelBuilder.Entity<JokeDbEntity>().HasKey(j => j.Checksum);
         }
     }
 }

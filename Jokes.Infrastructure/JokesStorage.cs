@@ -1,4 +1,5 @@
-﻿using Jokes.Application;
+﻿using AutoMapper;
+using Jokes.Application;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 
@@ -8,18 +9,20 @@ namespace Jokes.Infrastructure
     {
         private readonly JokesContext _context;
         private readonly ILogger<JokesStorage> _logger;
+        private readonly IMapper _mapper;
 
-        public JokesStorage(JokesContext context, ILogger<JokesStorage> logger)
+        public JokesStorage(JokesContext context, ILogger<JokesStorage> logger, IMapper mapper)
         {
             _context = context;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public async Task SaveJokesAsync(IEnumerable<Joke> jokes)
         {
             try
             {
-                foreach (var joke in jokes)
+                foreach (var joke in jokes.Select(j => _mapper.Map<JokeDbEntity>(j)))
                 {
                     if (JokeExists(joke))
                     {
@@ -43,16 +46,16 @@ namespace Jokes.Infrastructure
             }
         }
 
-        private bool JokeExists(Joke joke)
+        private bool JokeExists(JokeDbEntity joke)
         {
             var existingJoke = GetExistingJoke(joke);
 
             return existingJoke != null;
         }
 
-        private Joke? GetExistingJoke(Joke joke)
+        private JokeDbEntity? GetExistingJoke(JokeDbEntity joke)
         {
-            return _context.Find<Joke>(joke.Id);
+            return _context.Find<JokeDbEntity>(joke.Checksum);
         }
     }
 }
