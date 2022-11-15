@@ -7,12 +7,22 @@ namespace Jokes.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddApplicationSettings();
 
             services.AddJokesFilter();
 
             services.AddTransient<JokesPuller>();
 
             return services;
+        }
+
+        private static void AddApplicationSettings(this IServiceCollection services)
+        {
+            services.AddOptions<ApplicationSettings>()
+                .Configure<IConfiguration>((settings, config) =>
+                {
+                    config.GetSection(nameof(ApplicationSettings)).Bind(settings);
+                });
         }
 
         private static void AddJokesFilter(this IServiceCollection services)
