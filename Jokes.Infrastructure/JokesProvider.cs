@@ -19,19 +19,33 @@ namespace Jokes.Infrastructure
         {
             _logger.LogInformation($"Getting {amount} using {nameof(JokesProvider)} provider");
 
-            var jokes = new List<Joke>();
+            var jokes = await CollectJokesFromTasks(amount);
+
+            _logger.LogInformation($"Collected {jokes.Length} jokes using {nameof(JokesProvider)} provider");
+            return jokes;
+        }
+
+        private async Task<Joke[]> CollectJokesFromTasks(int numberOfJokes)
+        {
+            var tasks = PrepareGettingJokeTasks(numberOfJokes);
+
+            await Task.WhenAll(tasks);
+
+            return tasks.
+                Where(t => t.Result != null).
+                Select(t => t.Result).ToArray()!; 
+        }
+
+        private List<Task<Joke?>> PrepareGettingJokeTasks(int amount)
+        {
+            var tasks = new List<Task<Joke?>>();
 
             for (var i = 0; i < amount; i++)
             {
-                var joke = await GetRandomJokeFromApi();
-                if (joke != null)
-                {
-                    jokes.Add(joke);
-                }
+                tasks.Add(GetRandomJokeFromApi());
             }
 
-            _logger.LogInformation($"Collected {jokes.Count} jokes using {nameof(JokesProvider)} provider");
-            return jokes.ToArray();
+            return tasks;
         }
 
         private async Task<Joke?> GetRandomJokeFromApi()
