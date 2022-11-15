@@ -2,6 +2,6 @@
 {
     public interface IJokesProvider
     {
-        Task<Joke[]> GetJokes(int jokesAmount);
+        Task<Joke[]> GetJokesAsync(int jokesAmount);
     }
 }

@@ -1,7 +1,6 @@
 using Jokes.Application;
 using Jokes.Infrastructure;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var host = new HostBuilder()
@@ -13,7 +12,7 @@ var host = new HostBuilder()
     .ConfigureServices((context, services ) =>
     {
         services.AddSqliteStorage(context.Configuration);
-        services.AddTransient<JokesPuller>();
+        services.AddApplication(context.Configuration);
     })
     .Build();
 

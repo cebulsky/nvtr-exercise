@@ -4,15 +4,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Jokes.AzureFunction
 {
-    public class Function1
+    public class PullJokesFunction
     {
         private readonly JokesPuller _jokesPuller;
         private readonly ILogger _logger;
 
-        public Function1(ILoggerFactory loggerFactory, JokesPuller jokesPuller)
+        public PullJokesFunction(ILoggerFactory loggerFactory, JokesPuller jokesPuller)
         {
             _jokesPuller = jokesPuller;
-            _logger = loggerFactory.CreateLogger<Function1>();
+            _logger = loggerFactory.CreateLogger<PullJokesFunction>();
         }
 
         [Function("PullJokesFunction")]

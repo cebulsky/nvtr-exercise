@@ -36,11 +36,10 @@ namespace Jokes.Infrastructure.Tests
 
             var jokesProvider = new JokesProvider(_httpClient);
 
-            var jokes = await jokesProvider.GetJokes(jokesToGetAmount);
+            var jokes = await jokesProvider.GetJokesAsync(jokesToGetAmount);
 
             jokes.Length.Should().Be(jokesToGetAmount);
         }
-
 
         [Fact]
         public async Task ShouldCallExternalHttpApi()
@@ -49,7 +48,7 @@ namespace Jokes.Infrastructure.Tests
 
             var jokesProvider = new JokesProvider(_httpClient);
 
-            await jokesProvider.GetJokes(jokesAmount);
+            await jokesProvider.GetJokesAsync(jokesAmount);
 
             _httpHandlerMock.GetMatchCount(_request).Should().Be(jokesAmount);
         }

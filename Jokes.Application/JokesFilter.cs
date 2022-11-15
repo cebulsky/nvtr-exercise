@@ -1,29 +1,36 @@
-﻿namespace Jokes.Application
+﻿using Microsoft.Extensions.Options;
+
+namespace Jokes.Application
 {
-    public class JokesFilter
+    public class JokesFilter : IJokesFilter
     {
-        public JokesFilter()
+        private readonly JokesFilterSettings _filterSettings;
+
+        public JokesFilter(IOptions<JokesFilterSettings> options)
         {
+            _filterSettings = options.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
-        public static IEnumerable<Joke> Filter(Joke[] jokesToFilter)
+        public IEnumerable<Joke> Filter(Joke[] jokesToFilter)
         {
-            return jokesToFilter.Where(j => j.Value.Length <= 200);
+            return jokesToFilter.Where(j => j.Value.Length <= _filterSettings.MaxJokeLength);
         }
     }
 
-    public class JokesFilterFake : JokesFilter
-    {
-        private readonly Joke[] _jokesToReturn;
 
-        public JokesFilterFake(Joke[] jokesToReturn)
-        {
-            _jokesToReturn = jokesToReturn;
-        }
+    // remove
+    //public class JokesFilterFake : JokesFilter
+    //{
+    //    private readonly Joke[] _jokesToReturn;
 
-        internal new IEnumerable<Joke> Filter(Joke[] toFilter)
-        {
-            return _jokesToReturn;
-        }
-    }
+    //    public JokesFilterFake(Joke[] jokesToReturn)
+    //    {
+    //        _jokesToReturn = jokesToReturn;
+    //    }
+
+    //    internal new IEnumerable<Joke> Filter(Joke[] toFilter)
+    //    {
+    //        return _jokesToReturn;
+    //    }
+    //}
 }

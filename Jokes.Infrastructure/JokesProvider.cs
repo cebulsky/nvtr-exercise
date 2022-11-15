@@ -12,7 +12,7 @@ namespace Jokes.Infrastructure
             _httpClient = httpClient;
         }
 
-        public async Task<Joke[]> GetJokes(int amount)
+        public async Task<Joke[]> GetJokesAsync(int amount)
         {
             var jokes = new List<Joke>();
 
