@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Moq;
+using Tests.Common;
 
 namespace Jokes.Application.Tests
 {
@@ -36,20 +37,7 @@ namespace Jokes.Application.Tests
                 .Setup(s => s.Filter(It.IsAny<Joke[]>()))
                 .Callback<Joke[]>(jokesArg => jokesPassedToFilter = jokesArg);
 
-            var jokesFromProvider = new[]
-            {
-                new Joke
-                {
-                    Id = "1",
-                    Value = "Joke 1",
-                },
-
-                new Joke
-                {
-                    Id = "2",
-                    Value = "Joke 2",
-                },
-            };
+            var jokesFromProvider = JokesGenerator.GenerateMany(2);
 
             _providerMock.Setup(p => p.GetJokesAsync(It.IsAny<int>()))
                 .ReturnsAsync(jokesFromProvider);
@@ -67,20 +55,7 @@ namespace Jokes.Application.Tests
                 .Setup(s => s.SaveJokesAsync(It.IsAny<IEnumerable<Joke>>()))
                 .Callback<IEnumerable<Joke>>(jokes => savedJokes = jokes.ToArray());
 
-            var jokes = new[]
-            {
-                new Joke
-                {
-                    Id = "1",
-                    Value = "Joke 1",
-                },
-
-                new Joke
-                {
-                    Id = "2",
-                    Value = "Joke 2",
-                },
-            };
+            var jokes = JokesGenerator.GenerateMany(2);
 
             _filterMock.Setup(jp => jp.Filter(It.IsAny<Joke[]>()))
                 .Returns(jokes);

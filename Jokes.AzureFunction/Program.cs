@@ -11,7 +11,7 @@ var host = new HostBuilder()
     })
     .ConfigureServices((context, services ) =>
     {
-        services.AddSqliteStorage(context.Configuration);
+        services.AddInfrastructure(context.Configuration);
         services.AddApplication(context.Configuration);
     })
     .Build();

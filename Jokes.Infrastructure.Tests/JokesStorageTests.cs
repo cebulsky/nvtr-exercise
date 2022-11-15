@@ -4,6 +4,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Tests.Common;
 
 namespace Jokes.Infrastructure.Tests
 {
@@ -31,19 +32,7 @@ namespace Jokes.Infrastructure.Tests
         [Fact]
         public async Task ShouldSaveJokes()
         {
-            var jokes = new[]
-            {
-                new Joke
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Value = "Chuck Norris"
-                },
-                new Joke
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Value = "Chuck Norris is the best"
-                }
-            };
+            var jokes = JokesGenerator.GenerateMany(2);
 
             await _jokesStorage.SaveJokesAsync(jokes);
 
@@ -53,19 +42,7 @@ namespace Jokes.Infrastructure.Tests
         [Fact]
         public async Task ShouldNotSaveDuplicateJokes()
         {
-            var jokes = new List<Joke>
-            {
-                new Joke
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Value = "Chuck Norris"
-                },
-                new Joke
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Value = "Chuck Norris is the best"
-                }
-            };
+            var jokes = JokesGenerator.GenerateMany(2);
 
             var duplicatedJoke = new Joke
             {

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.Options;
+using Tests.Common;
 
 namespace Jokes.Application.Tests
 {
@@ -21,34 +22,11 @@ namespace Jokes.Application.Tests
         }
 
         [Fact]
-        public void ShouldFilterOutJokesLongerThan200Characters()
+        public void ShouldFilterOutJokesLongerThanMaxLength()
         {
-            var jokesToFilter = new[]
-            {
-                new Joke
-                {
-                    Id = "1",
-                    Value = "1"
-                },
-
-                new Joke
-                {
-                    Id = "2",
-                    Value = new string('a', 199)
-                },
-
-                new Joke
-                {
-                    Id = "2",
-                    Value = new string('a', 200)
-                },
-
-                new Joke
-                {
-                    Id = "2",
-                    Value = new string('a', 201)
-                }
-            };
+            var jokesToFilter = JokesGenerator.GenerateMany(3)
+                .Concat(new []{JokesGenerator.GenerateJokeOfLength(_options.Value.MaxJokeLength + 1)})
+                .ToArray();
 
             var filteredJokes = _jokesFilter.Filter(jokesToFilter);
 

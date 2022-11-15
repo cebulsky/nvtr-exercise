@@ -7,27 +7,34 @@ namespace Jokes.Infrastructure
 {
     public static class ConfigurationsExtensions
     {
-
-        public static IServiceCollection AddSqliteStorage(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            services
+                .AddSqliteStorage(configuration)
+                .AddJokesProvider(configuration);
 
-            ////services.AddOptions<DatabaseSettings>()
-            //    .Configure<IConfiguration>((settings, configuration) =>
-            //    {
-            //        configuration.GetSection(nameof(DatabaseSettings)).Bind(settings);
-            //    });
+            return services;
+        }
 
+        private static IServiceCollection AddSqliteStorage(this IServiceCollection services, IConfiguration configuration)
+        {
             var databaseSettings = new DatabaseSettings();
             configuration.GetSection(nameof(DatabaseSettings)).Bind(databaseSettings);
 
-            var jokesProviderSettings = new JokesProviderSettings();
-            configuration.GetSection(nameof(JokesProviderSettings)).Bind(jokesProviderSettings);
-
-            services.AddHttpClient<IJokesProvider, JokesProvider>(client => client.BaseAddress = new Uri(jokesProviderSettings.EndpointUrl));
+            services.AddJokesProvider(configuration);
 
             return services
                 .AddDbContext<JokesContext>(options => options.UseSqlite(databaseSettings.ConnectionString))
                 .AddTransient<IJokesStorage, JokesStorage>();
+        }
+
+        private static void AddJokesProvider(this IServiceCollection services, IConfiguration configuration)
+        {
+            var jokesProviderSettings = new JokesProviderSettings();
+            configuration.GetSection(nameof(JokesProviderSettings)).Bind(jokesProviderSettings);
+
+            services.AddHttpClient<IJokesProvider, JokesProvider>(client =>
+                client.BaseAddress = new Uri(jokesProviderSettings.EndpointUrl));
         }
     }
 }
