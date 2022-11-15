@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Jokes.StorageAzureFunction": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7001",
+      "launchBrowser": false
+    }
+  }
+}
