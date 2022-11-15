@@ -1,4 +1,5 @@
 using Jokes.Application;
+using Jokes.Infrastructure;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -24,7 +25,19 @@ namespace Jokes.AzureFunction
             _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
             _logger.LogInformation($"Pulling {_settings.JokesToPullAmount} jokes");
-            await _jokesPuller.PullJokes(_settings.JokesToPullAmount);
+
+            try
+            {
+                await _jokesPuller.PullJokes(_settings.JokesToPullAmount);
+            }
+            catch (Exception exception) when (exception is JokesProviderException or JokesStorageException)
+            {
+                _logger.LogError(exception, "Error occurred while pulling jokes");
+            }
+            catch (Exception exception)
+            {
+                _logger.LogCritical(exception, "Critical, unusual error occurred while pulling jokes");
+            }
         }
     }
 
