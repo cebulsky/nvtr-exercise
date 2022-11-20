@@ -29,7 +29,7 @@ namespace Jokes.Application
 
         private static void AddJokesFilter(this IServiceCollection services)
         {
-            services.AddOptions<JokesFilter>()
+            services.AddOptions<JokesFilterSettings>()
                 .Configure<IConfiguration>((settings, config) =>
                 {
                     config.GetSection(nameof(JokesFilterSettings)).Bind(settings);
